@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:providers_news/src/views/tabs1_view.dart';
+import 'package:providers_news/src/views/tabs2_view.dart';
 
 class TabsView extends StatelessWidget {
   const TabsView({Key? key}) : super(key: key);
@@ -53,11 +54,9 @@ class _BuildPages extends StatelessWidget {
     return PageView(
       physics: const NeverScrollableScrollPhysics(),
       controller: navigationModel.pageController,
-      children: [
-        const Tab1View(),
-        Container(
-          color: Colors.green,
-        )
+      children: const [
+        Tab1View(),
+        Tab2Pages(),
       ],
     );
   }
