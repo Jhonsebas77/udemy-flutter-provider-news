@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class TabsView extends StatelessWidget {
   const TabsView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: _BuildPages(),
-      bottomNavigationBar: _BuildNavigation(),
+    return ChangeNotifierProvider(
+      create: (_) => _NavigationModel(),
+      child: const Scaffold(
+        body: _BuildPages(),
+        bottomNavigationBar: _BuildNavigation(),
+      ),
     );
   }
 }
@@ -19,8 +23,10 @@ class _BuildNavigation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final navigationModel = Provider.of<_NavigationModel>(context);
     return BottomNavigationBar(
-      currentIndex: 0,
+      currentIndex: navigationModel.actualPage,
+      onTap: (i) => navigationModel.actualPage = i,
       items: const [
         BottomNavigationBarItem(
           icon: Icon(Icons.person_outline),
@@ -42,8 +48,10 @@ class _BuildPages extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final navigationModel = Provider.of<_NavigationModel>(context);
     return PageView(
       physics: const NeverScrollableScrollPhysics(),
+      controller: navigationModel.pageController,
       children: [
         Container(
           color: Colors.red,
@@ -54,4 +62,22 @@ class _BuildPages extends StatelessWidget {
       ],
     );
   }
+}
+
+class _NavigationModel with ChangeNotifier {
+  int _actualPage = 0;
+  final PageController _pageController = PageController();
+
+  int get actualPage => _actualPage;
+  set actualPage(int value) {
+    _actualPage = value;
+    _pageController.animateToPage(
+      value,
+      duration: const Duration(milliseconds: 250),
+      curve: Curves.easeInOut,
+    );
+    notifyListeners();
+  }
+
+  PageController get pageController => _pageController;
 }
