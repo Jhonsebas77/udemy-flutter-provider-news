@@ -8,9 +8,13 @@ class Tab1View extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final newsService = Provider.of<NewServices>(context);
-    return ListNews(
-      newsService.headlines,
-    );
+    final headlines = Provider.of<NewServices>(context).headlines;
+    return (headlines.isEmpty)
+        ? const Center(
+            child: CircularProgressIndicator(),
+          )
+        : ListNews(
+            headlines,
+          );
   }
 }
