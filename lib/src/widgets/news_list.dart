@@ -146,10 +146,10 @@ class _CardImage extends StatelessWidget {
         margin: const EdgeInsets.only(
           bottom: 10,
         ),
-        child: (news.urlToImage != null)
+        child: (news.urlToImage.isNotEmpty)
             ? FadeInImage(
                 placeholder: const AssetImage(
-                  'assets/img/giphy.gif',
+                  'assets/images/giphy.gif',
                 ),
                 image: NetworkImage(
                   news.urlToImage,
@@ -157,7 +157,7 @@ class _CardImage extends StatelessWidget {
               )
             : const Image(
                 image: AssetImage(
-                  'assets/img/giphy.gif',
+                  'assets/images/no-image.png',
                 ),
               ),
       ),
