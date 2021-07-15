@@ -10,9 +10,15 @@ class TabsView extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (_) => _NavigationModel(),
-      child: const Scaffold(
-        body: _BuildPages(),
-        bottomNavigationBar: _BuildNavigation(),
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(
+            'Titulares de Colombia',
+            style: Theme.of(context).textTheme.headline6,
+          ),
+        ),
+        body: const _BuildPages(),
+        bottomNavigationBar: const _BuildNavigation(),
       ),
     );
   }
@@ -29,14 +35,15 @@ class _BuildNavigation extends StatelessWidget {
     return BottomNavigationBar(
       currentIndex: navigationModel.actualPage,
       onTap: (i) => navigationModel.actualPage = i,
+      selectedItemColor: Colors.lightBlue,
       items: const [
         BottomNavigationBarItem(
           icon: Icon(Icons.person_outline),
-          label: 'For You',
+          label: 'Para ti',
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.public),
-          label: 'Popular',
+          label: 'Titulares',
         ),
       ],
     );

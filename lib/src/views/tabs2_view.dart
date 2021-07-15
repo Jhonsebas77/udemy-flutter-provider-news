@@ -40,7 +40,7 @@ class ListCategories extends StatelessWidget {
   Widget build(BuildContext context) {
     final categories = Provider.of<NewServices>(context).categories;
     return SizedBox(
-      height: 80,
+      height: 100,
       child: ListView.builder(
         itemCount: categories.length,
         physics: const BouncingScrollPhysics(),
@@ -66,10 +66,14 @@ class CategoryItem extends StatelessWidget {
     required this.category,
   }) : super(key: key);
 
-  Widget _buildCategoryButton(BuildContext context) {
+  bool isTheSame(BuildContext context) {
     final newServices = Provider.of<NewServices>(
       context,
     );
+    return newServices.selectedCategory == category.name;
+  }
+
+  Widget _buildCategoryButton(BuildContext context) {
     return GestureDetector(
       onTap: () {
         final newServices = Provider.of<NewServices>(
@@ -78,18 +82,12 @@ class CategoryItem extends StatelessWidget {
         );
         newServices.selectedCategory = category.name;
       },
-      child: Container(
+      child: SizedBox(
         width: 40,
         height: 40,
-        decoration: const BoxDecoration(
-          shape: BoxShape.circle,
-          color: Colors.white,
-        ),
         child: Icon(
           category.icon,
-          color: (newServices.selectedCategory == category.name)
-              ? Colors.red
-              : Colors.black,
+          color: (isTheSame(context)) ? Colors.lightBlue : Colors.white,
         ),
       ),
     );
@@ -100,9 +98,21 @@ class CategoryItem extends StatelessWidget {
     return Column(
       children: [
         _buildCategoryButton(context),
-        const SizedBox(height: 5),
-        Text(
-          toCapitalize(category.name),
+        // const SizedBox(height: 5),
+        SizedBox(
+          width: 50,
+          child: Column(
+            children: [
+              Divider(
+                color: isTheSame(context) ? Colors.lightBlue : Colors.white,
+                thickness: 2,
+              ),
+              Text(
+                toCapitalize(category.name),
+                overflow: TextOverflow.ellipsis,
+              ),
+            ],
+          ),
         ),
       ],
     );
