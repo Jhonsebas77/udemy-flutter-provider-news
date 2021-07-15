@@ -53,10 +53,14 @@ class CategoryItem extends StatelessWidget {
     required this.category,
   }) : super(key: key);
 
-  Widget _buildCategoryButton() {
+  Widget _buildCategoryButton(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        print('Hola Mundo -> ${category.name}');
+        final newServices = Provider.of<NewServices>(
+          context,
+          listen: false,
+        );
+        newServices.selectedCategory = category.name;
       },
       child: Container(
         width: 40,
@@ -77,7 +81,7 @@ class CategoryItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        _buildCategoryButton(),
+        _buildCategoryButton(context),
         const SizedBox(height: 5),
         Text(
           toCapitalize(category.name),
