@@ -54,6 +54,9 @@ class CategoryItem extends StatelessWidget {
   }) : super(key: key);
 
   Widget _buildCategoryButton(BuildContext context) {
+    final newServices = Provider.of<NewServices>(
+      context,
+    );
     return GestureDetector(
       onTap: () {
         final newServices = Provider.of<NewServices>(
@@ -71,7 +74,9 @@ class CategoryItem extends StatelessWidget {
         ),
         child: Icon(
           category.icon,
-          color: Colors.black,
+          color: (newServices.selectedCategory == category.name)
+              ? Colors.red
+              : Colors.black,
         ),
       ),
     );
