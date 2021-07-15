@@ -3,17 +3,17 @@ import 'package:providers_news/src/models/news_models.dart';
 import 'package:providers_news/src/ui/theme/theme.dart';
 
 class ListNews extends StatelessWidget {
-  final List<Article> news;
+  final List<Article>? news;
   // ignore: use_key_in_widget_constructors
   const ListNews(this.news);
 
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      itemCount: news.length,
+      itemCount: news!.length,
       itemBuilder: (_, int index) {
         return News(
-          news: news[index],
+          news: news![index],
           index: index,
         );
       },

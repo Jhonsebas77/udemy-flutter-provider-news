@@ -3,18 +3,28 @@ import 'package:provider/provider.dart';
 import 'package:providers_news/src/models/category_model.dart';
 import 'package:providers_news/src/services/news_service.dart';
 import 'package:providers_news/src/utils/utils.dart';
+import 'package:providers_news/src/widgets/widgets.dart';
 
 class Tab2Pages extends StatelessWidget {
   const Tab2Pages({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final articlesSelected =
+        Provider.of<NewServices>(context).getSelectedArticleByCategory;
     return SafeArea(
       child: Scaffold(
         body: Column(
-          children: const [
+          children: [
+            const ListCategories(),
             Expanded(
-              child: ListCategories(),
+              child: (articlesSelected!.isEmpty)
+                  ? const Center(
+                      child: CircularProgressIndicator(),
+                    )
+                  : ListNews(
+                      articlesSelected,
+                    ),
             ),
           ],
         ),
@@ -29,18 +39,21 @@ class ListCategories extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final categories = Provider.of<NewServices>(context).categories;
-    return ListView.builder(
-      itemCount: categories.length,
-      physics: const BouncingScrollPhysics(),
-      scrollDirection: Axis.horizontal,
-      itemBuilder: (_, int index) {
-        return Padding(
-          padding: const EdgeInsets.all(8),
-          child: CategoryItem(
-            category: categories[index],
-          ),
-        );
-      },
+    return SizedBox(
+      height: 80,
+      child: ListView.builder(
+        itemCount: categories.length,
+        physics: const BouncingScrollPhysics(),
+        scrollDirection: Axis.horizontal,
+        itemBuilder: (_, int index) {
+          return Padding(
+            padding: const EdgeInsets.all(8),
+            child: CategoryItem(
+              category: categories[index],
+            ),
+          );
+        },
+      ),
     );
   }
 }

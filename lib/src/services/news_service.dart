@@ -38,7 +38,10 @@ class NewServices extends ChangeNotifier {
     notifyListeners();
   }
 
-  getTopHeadlines() async {
+  List<Article>? get getSelectedArticleByCategory =>
+      categoryArticles[_selectedCategory];
+
+  void getTopHeadlines() async {
     final url = Uri.https(
       _basePathNews,
       _pathHeadlines,
