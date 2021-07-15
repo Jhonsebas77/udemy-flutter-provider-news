@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:providers_news/src/models/category_model.dart';
 import 'package:providers_news/src/services/news_service.dart';
+import 'package:providers_news/src/utils/utils.dart';
 
 class Tab2Pages extends StatelessWidget {
   const Tab2Pages({Key? key}) : super(key: key);
@@ -34,15 +36,53 @@ class ListCategories extends StatelessWidget {
       itemBuilder: (_, int index) {
         return Padding(
           padding: const EdgeInsets.all(8),
-          child: Column(
-            children: [
-              Icon(categories[index].icon),
-              const SizedBox(height: 5),
-              Text(categories[index].name),
-            ],
+          child: CategoryItem(
+            category: categories[index],
           ),
         );
       },
+    );
+  }
+}
+
+class CategoryItem extends StatelessWidget {
+  final Category category;
+
+  const CategoryItem({
+    Key? key,
+    required this.category,
+  }) : super(key: key);
+
+  Widget _buildCategoryButton() {
+    return GestureDetector(
+      onTap: () {
+        print('Hola Mundo -> ${category.name}');
+      },
+      child: Container(
+        width: 40,
+        height: 40,
+        decoration: const BoxDecoration(
+          shape: BoxShape.circle,
+          color: Colors.white,
+        ),
+        child: Icon(
+          category.icon,
+          color: Colors.black,
+        ),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        _buildCategoryButton(),
+        const SizedBox(height: 5),
+        Text(
+          toCapitalize(category.name),
+        ),
+      ],
     );
   }
 }
